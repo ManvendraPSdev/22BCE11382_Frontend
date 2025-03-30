@@ -1,119 +1,117 @@
-# Trademark Search Application
+# Trademark Search Interface
 
-![Trademarkia Logo](public/Logo.png)
+A modern Next.js application for searching and filtering trademarks, built with React, TypeScript, and Tailwind CSS.
 
-A modern web application for searching and filtering trademark information, built with Next.js and TypeScript.
-
-## Overview
-
-This application provides a user-friendly interface to search and explore trademark data. It fetches information from a trademark API and allows users to filter results by various parameters including status, owners, law firms, and attorneys.
+![Trademark Search Interface](public/preview.png)
 
 ## Features
 
-- **Trademark Search**: Search for trademarks by keyword
-- **Advanced Filtering**: Filter results by:
-  - Status (Registered, Pending, Abandoned, Others)
-  - Owners
-  - Law Firms
-  - Attorneys
-- **Detailed Trademark Information**: View comprehensive details for each trademark:
-  - Mark Identification
-  - Owner Information
-  - Registration/Serial Numbers
-  - Filing and Status Dates
-  - Class Codes
-  - Mark Descriptions
-- **Responsive Design**: Works seamlessly across desktop and mobile devices
-- **Visual Status Indicators**: Color-coded status indicators for easy identification
+- **Powerful Trademark Search**: Search through thousands of trademarks with real-time results
+- **Advanced Filtering**: Filter trademarks by status, owner, law firm, and attorney
+- **Interactive UI**: Clean, modern interface with intuitive controls
+- **Responsive Design**: Works on desktop and mobile devices
+- **Real-time API Integration**: Connects to a trademark database API
 
-## Tech Stack
+## Technologies Used
 
-- **Framework**: Next.js 14 (React)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **API Integration**: Custom API service
-- **State Management**: React Hooks
-- **Icons**: React Icons
+- **Next.js 14+**: For server-side rendering and optimized performance
+- **React 18**: For building the interactive UI
+- **TypeScript**: For type safety and better developer experience
+- **Tailwind CSS**: For responsive, utility-first styling
+- **React Icons**: For UI icons
+- **API Integration**: RESTful API connection to trademark database
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or newer
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/trademark-search.git
+   cd trademark-search
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
 ## Project Structure
 
 ```
-src/
-├── app/
-│   ├── components/
-│   │   ├── Filters.tsx          # Filter sidebar component
-│   │   ├── SearchBar.tsx        # Search input component
-│   │   └── TrademarkCard.tsx    # Trademark result card component
-│   ├── services/
-│   │   └── trademarkService.ts  # API service for trademark data
-│   ├── types.ts                 # TypeScript interfaces and types
-│   └── page.tsx                 # Main page component
-├── ...
-public/
-├── Logo.png                     # Application logo
-└── ...
+/
+├── public/              # Static assets
+│   └── Logo.png         # Application logo
+├── src/
+│   ├── app/             # Next.js app directory
+│   │   ├── components/  # React components
+│   │   │   ├── Filters.tsx       # Filter sidebar component
+│   │   ├── services/    # Service layer for API calls
+│   │   │   └── trademarkService.ts  # Trademark API service
+│   │   ├── types.ts     # TypeScript types and interfaces
+│   │   └── page.tsx     # Main application page
+│   └── styles/          # CSS styles
+└── next.config.js       # Next.js configuration
 ```
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/trademark-search-app.git
-cd trademark-search-app
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn
-```
-
-3. Create a `.env.local` file in the root directory (if needed for API keys):
-```
-API_BASE_URL=https://vit-tm-task.api.trademarkia.app/api/v3
-```
-
-4. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
 ## API Integration
 
-The application connects to the Trademarkia API to fetch trademark data. The main endpoint used is:
+The application connects to the trademark API at `https://vit-tm-task.api.trademarkia.app/api/v3/us`. The API supports:
 
-```
-https://vit-tm-task.api.trademarkia.app/api/v3/us
-```
+- Searching trademarks by query
+- Filtering by status, owner, attorney, and law firm
+- Pagination of results
+- Aggregations for filter options
 
-The API accepts POST requests with parameters for searching and filtering trademarks.
+## Features in Detail
 
-## Code Structure
+### Trademark Search
 
-The application follows the SOLID principles of software design:
+Users can search for trademarks using the search bar. The application sends a request to the API and displays the results.
 
-- **Single Responsibility Principle**: Each component has a single responsibility
-- **Open/Closed Principle**: Components are open for extension but closed for modification
-- **Interface Segregation**: Components only receive the props they need
-- **Dependency Inversion**: High-level modules depend on abstractions not implementations
+### Status Filtering
 
-## Future Enhancements
+Trademarks can be filtered by their status:
+- Registered (green)
+- Pending (yellow)
+- Abandoned (red)
+- Others (blue)
 
-- Advanced search capabilities with boolean operators
-- Export results to CSV/PDF
-- User accounts for saving searches
-- Internationalization support
-- Dark mode support
-- Real-time updates for trademark status changes
+### Entity Filtering
+
+Users can filter trademarks by:
+- Owners
+- Law Firms
+- Attorneys
+
+Each filter category has its own search functionality to find specific entities.
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 
 ## Acknowledgments
 
-- Trademarkia for providing the API
-- Next.js team for the amazing framework
-- Tailwind CSS for the styling utilities
+- Design inspired by Trademarkia's interface
+- Data provided by trademark API
