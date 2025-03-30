@@ -5,10 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import type { Hit, Aggregation } from './types';
 import { TrademarkService } from './services/trademarkService';
-import { SearchBar } from './components/SearchBar';
-import { TrademarkCard } from './components/TrademarkCard';
 import { Filters } from './components/Filters';
-import { FaSearch } from 'react-icons/fa';
 
 export default function Home() {
   // Search and results state
@@ -75,10 +72,6 @@ export default function Home() {
       month: 'short',
       day: 'numeric'
     });
-  };
-
-  const handleSearchQueryChange = (value: string) => {
-    setSearchQuery(value);
   };
 
   const handleSearch = () => {
