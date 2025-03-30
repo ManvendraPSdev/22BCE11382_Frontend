@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import type { TrademarkResponse, Hit, Aggregation } from './types';
+import { useState, useEffect, useCallback } from 'react';
+import type { Hit, Aggregation } from './types';
 import { TrademarkService } from './services/trademarkService';
 import { SearchBar } from './components/SearchBar';
 import { TrademarkCard } from './components/TrademarkCard';
@@ -27,12 +27,6 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'owners' | 'lawFirms' | 'attorneys'>('owners');
 
   // Aggregations state
-  const [aggregations, setAggregations] = useState<{
-    attorneys: Aggregation;
-    class_codes: Aggregation;
-    current_owners: Aggregation;
-    law_firms: Aggregation;
-  } | null>(null);
   const [initialAggregations, setInitialAggregations] = useState<{
     attorneys: Aggregation;
     class_codes: Aggregation;
@@ -40,7 +34,7 @@ export default function Home() {
     law_firms: Aggregation;
   } | null>(null);
 
-  const fetchTrademarks = async () => {
+  const fetchTrademarks = useCallback(async () => {
     try {
       setLoading(true);
       const data = await TrademarkService.fetchTrademarks({
@@ -63,24 +57,16 @@ export default function Home() {
           law_firms: data.body.aggregations.law_firms,
         });
       }
-      
-      // Update current aggregations
-      setAggregations({
-        attorneys: data.body.aggregations.attorneys,
-        class_codes: data.body.aggregations.class_codes,
-        current_owners: data.body.aggregations.current_owners,
-        law_firms: data.body.aggregations.law_firms,
-      });
     } catch (error) {
       console.error('Error fetching trademarks:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchQuery, selectedStatus, selectedOwners, selectedAttorneys, selectedLawFirms, initialAggregations]);
 
   useEffect(() => {
     fetchTrademarks();
-  }, [searchQuery, selectedOwners, selectedLawFirms, selectedAttorneys, selectedStatus]);
+  }, [fetchTrademarks]);
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp * 1000).toLocaleDateString('en-US', {
@@ -156,7 +142,9 @@ export default function Home() {
                 alt="Trademarkia Logo"
                 width={150}
                 height={40}
+                priority
                 className="object-contain"
+                style={{ width: 'auto', height: 'auto' }}
               />
             </Link>
             <SearchBar
@@ -171,7 +159,7 @@ export default function Home() {
       {/* Main Content */}
       <div className="max-w-[1200px] mx-auto px-4 py-6">
         <h2 className="text-gray-700 text-lg font-medium mb-4">
-          About {totalResults} Trademarks found for "{searchQuery}"
+          About {totalResults} Trademarks found for &ldquo;{searchQuery}&rdquo;
         </h2>
 
         {/* Content Grid */}
