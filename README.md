@@ -111,9 +111,6 @@ The application follows the SOLID principles of software design:
 - Dark mode support
 - Real-time updates for trademark status changes
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
