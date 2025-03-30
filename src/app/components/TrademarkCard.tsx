@@ -6,6 +6,17 @@ interface TrademarkCardProps {
 }
 
 export const TrademarkCard = ({ hit, formatDate }: TrademarkCardProps) => {
+  // Function to determine status color
+  const getStatusColor = (status: string) => {
+    const statusLower = status.toLowerCase();
+    if (statusLower.includes('abandon')) return { bg: '#EF4444', text: '#B91C1C' }; // red
+    if (statusLower.includes('pending')) return { bg: '#F59E0B', text: '#B45309' }; // yellow
+    if (statusLower.includes('register')) return { bg: '#10B981', text: '#047857' }; // green
+    return { bg: '#3B82F6', text: '#1D4ED8' }; // blue - Others
+  };
+
+  const statusColor = getStatusColor(hit._source.status_type);
+
   return (
     <div className="bg-white p-6 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors">
       <div className="grid grid-cols-[1fr_1.5fr_1fr_2fr] gap-6 items-start">
@@ -19,8 +30,8 @@ export const TrademarkCard = ({ hit, formatDate }: TrademarkCardProps) => {
           <div className="text-gray-500 text-sm">{formatDate(hit._source.filing_date)}</div>
         </div>
         <div>
-          <div className="text-green-600 flex items-center gap-2 font-medium mb-1">
-            <span className="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+          <div className="flex items-center gap-2 font-medium mb-1" style={{ color: statusColor.text }}>
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: statusColor.bg }}></span>
             {hit._source.status_type}
           </div>
           <div className="text-gray-500 text-sm">on {formatDate(hit._source.status_date)}</div>

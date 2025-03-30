@@ -8,6 +8,7 @@ import { TrademarkService } from './services/trademarkService';
 import { SearchBar } from './components/SearchBar';
 import { TrademarkCard } from './components/TrademarkCard';
 import { Filters } from './components/Filters';
+import { FaSearch } from 'react-icons/fa';
 
 export default function Home() {
   // Search and results state
@@ -134,31 +135,41 @@ export default function Home() {
     <main className="min-h-screen bg-white">
       {/* Header with search */}
       <header className="border-b border-red-500">
-        <div className="max-w-[1200px] mx-auto px-4 py-4">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="flex-shrink-0">
+        <div className="max-w-[1200px] mx-auto px-4 py-2">
+          <div className="flex items-center">
+            <Link href="/" className="mr-6">
               <Image
                 src="/Logo.png"
                 alt="Trademarkia Logo"
-                width={150}
+                width={140}
                 height={40}
                 priority
                 className="object-contain"
                 style={{ width: 'auto', height: 'auto' }}
               />
             </Link>
-            <SearchBar
-              searchQuery={searchQuery}
-              onSearchChange={handleSearchQueryChange}
-              onSearch={handleSearch}
-            />
+            <div className="flex-1 flex relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search Trademark Here eg. Mickey Mouse"
+                className="w-full border rounded-l-lg border-r-0 px-4 py-2 text-gray-700"
+              />
+              <button
+                onClick={handleSearch}
+                className="bg-blue-500 text-white px-8 py-2 rounded-r-lg font-medium"
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
       <div className="max-w-[1200px] mx-auto px-4 py-6">
-        <h2 className="text-gray-700 text-lg font-medium mb-4">
+        <h2 className="text-gray-700 text-lg font-medium mb-6">
           About {totalResults} Trademarks found for &ldquo;{searchQuery}&rdquo;
         </h2>
 
@@ -167,7 +178,7 @@ export default function Home() {
           {/* Main Content */}
           <div className="flex-1">
             {/* Results header */}
-            <div className="flex items-center justify-between mb-6 border-b pb-3">
+            <div className="flex mb-4 border-b pb-2">
               <div className="grid grid-cols-[1fr_1.5fr_1fr_2fr] gap-6 w-full">
                 <div className="font-medium text-gray-700">Mark</div>
                 <div className="font-medium text-gray-700">Details</div>
@@ -182,11 +193,66 @@ export default function Home() {
                 <div className="text-center py-8 text-gray-600">Loading...</div>
               ) : (
                 trademarks.map((hit) => (
-                  <TrademarkCard
-                    key={hit._id}
-                    hit={hit}
-                    formatDate={formatDate}
-                  />
+                  <div key={hit._id} className="border rounded-lg p-4">
+                    <div className="grid grid-cols-[1fr_1.5fr_1fr_2fr] gap-6 items-start">
+                      <div className="bg-gray-100 p-4 rounded-lg flex items-center justify-center h-24">
+                        <div className="text-center font-medium text-gray-700">
+                          {hit._source.mark_identification}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-800 mb-1">{hit._source.mark_identification}</div>
+                        <div className="text-gray-600 mb-1">{hit._source.current_owner}</div>
+                        <div className="text-gray-500 text-sm">{hit._source.registration_number}</div>
+                        <div className="text-gray-500 text-sm">
+                          {formatDate(hit._source.filing_date)}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 font-medium mb-1">
+                          <span 
+                            className="w-2.5 h-2.5 rounded-full"
+                            style={{ 
+                              backgroundColor: 
+                                hit._source.status_type.toLowerCase().includes('abandon') ? '#EF4444' : 
+                                hit._source.status_type.toLowerCase().includes('pending') ? '#F59E0B' :
+                                hit._source.status_type.toLowerCase().includes('register') ? '#10B981' :
+                                '#3B82F6'
+                            }}
+                          ></span>
+                          <span 
+                            style={{ 
+                              color: 
+                                hit._source.status_type.toLowerCase().includes('abandon') ? '#B91C1C' : 
+                                hit._source.status_type.toLowerCase().includes('pending') ? '#B45309' :
+                                hit._source.status_type.toLowerCase().includes('register') ? '#047857' :
+                                '#1D4ED8'
+                            }}
+                          >
+                            {hit._source.status_type}
+                          </span>
+                        </div>
+                        <div className="text-gray-500 text-sm">
+                          on {formatDate(hit._source.status_date)}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-gray-700 mb-3 line-clamp-2">
+                          {hit._source.mark_description_description?.[0]}
+                        </div>
+                        <div className="flex flex-wrap gap-3">
+                          {hit._source.class_codes.map((classNum, idx) => (
+                            <div key={idx} className="flex items-center gap-1">
+                              <span className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-xs font-medium text-gray-600">
+                                {classNum}
+                              </span>
+                              <span className="text-gray-600 text-sm">Class {classNum}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 ))
               )}
             </div>

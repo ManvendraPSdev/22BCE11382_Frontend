@@ -25,10 +25,26 @@ interface FiltersProps {
 }
 
 const statusOptions = [
-  { label: 'Registered', value: 'registered', color: 'green' },
-  { label: 'Pending', value: 'pending', color: 'yellow' },
-  { label: 'Abandoned', value: 'abandoned', color: 'red' },
-  { label: 'Others', value: 'others', color: 'blue' }
+  { 
+    label: 'Registered', 
+    value: 'registered', 
+    colors: { bg: '#10B981', bgLight: '#ECFDF5', text: '#047857', border: '#A7F3D0' } 
+  },
+  { 
+    label: 'Pending', 
+    value: 'pending', 
+    colors: { bg: '#F59E0B', bgLight: '#FFFBEB', text: '#B45309', border: '#FCD34D' } 
+  },
+  { 
+    label: 'Abandoned', 
+    value: 'abandoned', 
+    colors: { bg: '#EF4444', bgLight: '#FEF2F2', text: '#B91C1C', border: '#FCA5A5' } 
+  },
+  { 
+    label: 'Others', 
+    value: 'others', 
+    colors: { bg: '#3B82F6', bgLight: '#EFF6FF', text: '#1D4ED8', border: '#93C5FD' } 
+  }
 ];
 
 export const Filters = ({
@@ -80,17 +96,21 @@ export const Filters = ({
             <button
               key={status.value}
               onClick={() => onStatusChange(
-                selectedStatus.includes(status.value)
+                selectedStatus.includes(status.value) 
                   ? selectedStatus.filter(s => s !== status.value)
                   : [...selectedStatus, status.value]
               )}
-              className={`px-4 py-1.5 rounded-full font-medium flex items-center ${
-                selectedStatus.includes(status.value)
-                  ? 'bg-gray-100 text-gray-900'
-                  : 'text-gray-700 hover:bg-gray-50'
-              } border border-gray-200`}
+              className="px-4 py-1.5 rounded-full font-medium flex items-center border"
+              style={{
+                backgroundColor: selectedStatus.includes(status.value) ? status.colors.bgLight : 'transparent',
+                color: selectedStatus.includes(status.value) ? status.colors.text : '#4B5563',
+                borderColor: selectedStatus.includes(status.value) ? status.colors.border : '#E5E7EB',
+              }}
             >
-              <span className={`w-2.5 h-2.5 bg-${status.color}-500 rounded-full mr-2`}></span>
+              <span 
+                className="w-2.5 h-2.5 rounded-full mr-2"
+                style={{ backgroundColor: status.colors.bg }}
+              ></span>
               {status.label}
             </button>
           ))}
